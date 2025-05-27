@@ -2,19 +2,18 @@
 
 namespace App\Http\Controllers\api;
 
-use App\Exceptions\DataNotFoundException;
 use App\Helper\RequestQueryMapper;
-use App\Helper\ResponseBuilder;
-use App\Http\Requests\GroupCellRequest;
-use App\Http\Requests\PaginatedRequest;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PaginatedRequest;
 use App\Models\GroupCell;
+use App\Models\GroupCellHasMember;
 
-class GroupCellController extends Controller
+class GroupCellHasMemberController extends Controller
 {
-    public function get(PaginatedRequest $request)
+    public function get(PaginatedRequest $request, int $groupCellId)
     {
-        $query = GroupCell::query(); 
+        $query = GroupCell->find;
+
         RequestQueryMapper::search($request,$query,"name");
         return RequestQueryMapper::paginate($request,$query);
     }

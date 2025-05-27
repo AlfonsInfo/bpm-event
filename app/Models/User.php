@@ -28,4 +28,15 @@ class User extends Authenticatable
         'password' => 'hashed',
         'status' => UserStatus::class,
     ];
+
+      public function groupCells()
+    {
+        return $this->belongsToMany(GroupCell::class, 'group_cell_has_members', 'user_id', 'group_cell_id')
+                    ->withTimestamps();
+    }
+
+    public function groupCellMemberships()
+    {
+        return $this->hasMany(GroupCellHasMember::class);
+    }
 }

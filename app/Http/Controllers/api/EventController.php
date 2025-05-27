@@ -24,7 +24,6 @@ class EventController extends Controller
         $event = self::mapToModel($request);
         $event->save();
         return ResponseBuilder::responseCreated();
-        //
     }
 
     public function getById(int $id)

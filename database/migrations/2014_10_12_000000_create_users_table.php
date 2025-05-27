@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -28,6 +29,42 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
+
+         DB::table('users')->insert([
+            [
+                'name' => 'Agustinus',
+                'wa_number' => '081234567890',
+                'status' => 'Active',
+                'is_activated' => true,
+                'email' => 'agustinus@example.com',
+                'password' => Hash::make('password'),
+                'email_verified_at' => Carbon::now(),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Benedictus',
+                'wa_number' => '081234567891',
+                'status' => 'Active',
+                'is_activated' => true,
+                'email' => 'benedictus@example.com',
+                'password' => Hash::make('password'),
+                'email_verified_at' => Carbon::now(),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Carlo Acutis',
+                'wa_number' => '081234567892',
+                'status' => 'Active',
+                'is_activated' => true,
+                'email' => 'carlo@example.com',
+                'password' => Hash::make('password'),
+                'email_verified_at' => Carbon::now(),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+        ]);
     }
 
     /**

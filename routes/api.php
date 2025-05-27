@@ -3,6 +3,7 @@
 use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\EventCategoryController;
 use App\Http\Controllers\api\EventController;
+use App\Http\Controllers\api\GroupCellController;
 use App\Http\Controllers\api\UserController;
 use Illuminate\Support\Facades\Route;
 Route::controller(AuthController::class)->group(function () {
@@ -34,6 +35,20 @@ Route::controller(EventCategoryController::class)->group(function () {
 });
 
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+
+Route::controller(GroupCellController::class)->group(function () {
+    Route::post("/v1/group-cells", "post");
+    Route::get("/v1/group-cells", "get");
+    Route::get("/v1/group-cells/{id}", "getById");
+    Route::put("/v1/group-cells/{id}","put");
+    Route::delete("/v1/group-cells/{id}", "delete");
+});
+
+
+Route::controller(GroupCellController::class)->group(function () {
+    Route::post("/v1/group-cells/{groupCellId}", "post");
+    Route::get("/v1/group-cells", "get");
+    Route::get("/v1/group-cells/{id}", "getById");
+    Route::put("/v1/group-cells/{id}","put");
+    Route::delete("/v1/group-cells/{id}", "delete");
+});
