@@ -4,8 +4,6 @@ namespace App\Http\Requests;
 
 use AuthException;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Support\Facades\Log;
@@ -22,24 +20,20 @@ class LoginRequest extends BaseFormRequest
     }
 
 
-    public function authenticate(){
+    public function authenticate(){    
         $this->ensureIsNotRateLimited();
         $dataForAttempt = $this->validate($this->rules());
-        // $dataForAttempt = array_merge($dataForAttempt, ["role" => "CANDIDATE"]);
-
+       
         if (!Auth::attempt($dataForAttempt)) {
             RateLimiter::hit($this->throttleKey());
-            throw new AuthException("Email atau password salah");
+            throw new \App\Exceptions\AuthException("Email atau password salah");
         }
+        
         $user = Auth::user();
-        // if($user->is_banned){
-        //     // throw new CustomAuthException("Akun anda telah di banned. Alasan : " . $user->banned_reason);
-        // }
 
         if(is_null($user->email_verified_at)){  
             return false;
         }
-
         RateLimiter::clear($this->throttleKey());
         return  $user;
     }

@@ -2,12 +2,11 @@
 
 namespace App\Enums;
 
-enum UserStatus: string
+enum ArticleVisibility: string
 {
-    case Active = 'Active';
-    case Inactive = 'Inactive';
-    case Banned = 'Banned';
-
+    case PUBLIC = 'PUBLIC';
+    case PRIVATE = 'PRIVATE';
+    
     public static function values(): array
     {
         return array_column(self::cases(), 'value');

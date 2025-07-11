@@ -18,6 +18,13 @@ class GroupCellController extends Controller
         RequestQueryMapper::search($request,$query,"name");
         return RequestQueryMapper::paginate($request,$query);
     }
+
+    public function getList()
+    {
+        $query = GroupCell::query(); 
+        return $query->get();
+    }
+    
     
     public function post(GroupCellRequest $request)
     {
@@ -29,6 +36,7 @@ class GroupCellController extends Controller
     public function getById(int $id)
     {
         $model = self::validateGetModelById($id);
+        $model->load('members');
         return ResponseBuilder::responseGetById($model->toArray());
     }
 

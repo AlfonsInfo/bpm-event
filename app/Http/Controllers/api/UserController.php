@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\api;
 
+use App\Exceptions\DataNotFoundException;
 use App\Helper\ResponseBuilder;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PaginatedRequest;
@@ -18,11 +19,25 @@ class UserController extends Controller{
         return ResponseBuilder::responseCreated();
     }
 
-    public function get(PaginatedRequest $request, /**search request */) {
-        $query = User::query();
-        RequestQueryMapper::search($request,$query,"name");
-        return RequestQueryMapper::paginate($request,$query);
+    // public function get(PaginatedRequest $request, /**search request */) {
+    //     $query = User::query();
+    //     RequestQueryMapper::search($request,$query,"name");
+    //     return RequestQueryMapper::paginate($request,$query);
+    // }
+    public function get()
+    {
+        $query = User::query(); 
+        return $query->get();
     }
+    
+
+    public function getById(int $id)
+    {
+        $model = self::validateGetModelById($id);
+        // $model->load('members');
+        return ResponseBuilder::responseGetById($model->toArray());
+    }
+
 
     public function put(){
 
@@ -43,5 +58,9 @@ class UserController extends Controller{
         $user->is_activated = true;
         $user->email_verified_at = now();
         return $user;
-    }    
+    }
+    
+    public function validateGetModelById(int $id){
+            return User::where('id', $id)->first() ?? throw new DataNotFoundException();
+    }
 }

@@ -15,8 +15,7 @@ class EventCategoryController extends Controller
 {   
     public function get(PaginatedRequest $request){
         $query = EventCategory::query(); 
-        RequestQueryMapper::search($request,$query,"name");
-        return RequestQueryMapper::paginate($request,$query);
+        return $query->get();
     }
     
     public function post(EventCategoryRequest $request)

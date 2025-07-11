@@ -15,7 +15,7 @@ class ResponseBuilder
     
     public static function responseDeleted()
     {
-        return response()->noContent(200);
+        return response()->noContent(status: 204);
     }
 
 
@@ -24,12 +24,12 @@ class ResponseBuilder
         return response()->noContent();
     }
 
-    public static function responseGetById($array){
-        return response()->json($array,200);
+    public static function responseGetById($array, $message = "success"){
+        return response()->json($array,status: 200);
     }
 
     public static function responseUpdated($array){
-        return response()->json($array,200);
+        return response()->json($array,status: 200);
     }
     
 
@@ -39,7 +39,7 @@ class ResponseBuilder
         $responseData = [
             "status" => false,
             "message" => $message
-        ];
+        ];  
 
     // Membuat respons JSON dan mengembalikannya
     return response()->json($responseData, $status, $header); 

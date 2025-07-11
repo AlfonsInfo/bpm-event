@@ -2,11 +2,12 @@
 
 namespace App\Enums;
 
-enum UserStatus: string
+enum ArticleStatus: string
 {
-    case Active = 'Active';
-    case Inactive = 'Inactive';
-    case Banned = 'Banned';
+    case DRAFT = 'DRAFT';
+    case PUBLISHED = 'PUBLISHED';
+
+    case ARCHIVED = 'ARCHIVED';
 
     public static function values(): array
     {

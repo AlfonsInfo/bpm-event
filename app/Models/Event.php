@@ -10,6 +10,9 @@ class Event extends Model
 {
     use HasFactory,SoftDeletes;
 
+    
+    public const RELATION_CATEGORY = 'category';
+
     protected $table = "events";
     protected $primaryKey = "id";
 
@@ -18,4 +21,9 @@ class Event extends Model
     protected $hidden = [
         'deleted_at'
     ];
+
+    public function category()
+    {
+        return $this->belongsTo(EventCategory::class, 'event_category_id');
+    }
 }

@@ -77,7 +77,7 @@ class Handler extends ExceptionHandler
             }
 
 
-            if ($exception instanceof CustomAuthException) {
+            if ($exception instanceof AuthException) {
                 return ResponseBuilder::responseFailed($exception->getMessage(), 401);
             }
 

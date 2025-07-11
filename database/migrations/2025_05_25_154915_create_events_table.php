@@ -16,17 +16,29 @@ return new class extends Migration
         Schema::create('events', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->dateTime('start_date');
-            $table->dateTime('end_date');
+            $table->boolean('is_singleday')->default(true);
+            $table->date('date') -> nullable();
+            $table->date('start_date') -> nullable();
+            $table->date('end_date') -> nullable();
             $table->string("event_type")->default(EventType::OFFLINE);
             $table->string("event_scope")->default(EventScope::INTERNAL);
+            $table->foreignId('event_category_id') ->constrained('event_categories');
             $table->string("created_by")->default("System");
             $table->string("updated_by")->nullable(true);
-            $table->foreignId('event_category_id') ->constrained('event_categories');
+            $table->boolean('is_active')->default(false);
             $table->timestamps();
             $table->softDeletes();
         });
+
+        
+            // INSERT langsung di migration
+            DB::table('events')->insert([
+                ['name' => 'Komsel 1', 'event_category_id' => 1, 'created_by' => 'Seeder', "start_date" => now(),"end_date" => now()],
+                ['name' => 'Komsel 2', 'event_category_id' => 1, 'created_by' => 'Seeder', "start_date" => now(),"end_date" => now()],
+                ['name' => 'Komsel 3', 'event_category_id' => 1, 'created_by' => 'Seeder', "start_date" => now(),"end_date" => now()],
+            ]);
     }
+    
 
     /**
      * Reverse the migrations.

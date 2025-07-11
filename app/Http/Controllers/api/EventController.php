@@ -9,6 +9,7 @@ use App\Http\Requests\EventRequest;
 use App\Models\Event;
 use App\Http\Controllers\Controller;
 use App\Exceptions\DataNotFoundException;
+use Illuminate\Http\Request;
 class EventController extends Controller
 {
     
@@ -17,6 +18,19 @@ class EventController extends Controller
         $query = Event::query(); 
         RequestQueryMapper::search($request,$query,"name");
         return RequestQueryMapper::paginate($request,$query);
+    }
+
+    public function getList(Request $request)
+    {
+        // Ambil query param dari URL ?withCategory=true
+        $withCategory = $request->boolean('withCategory', false);
+        $query = Event::query();
+    
+        if($withCategory){
+            $query = Event::with(EVENT::RELATION_CATEGORY . ":id,name");
+        }
+
+        return $query->get();
     }
     
     public function post(EventRequest $request)
@@ -38,6 +52,15 @@ class EventController extends Controller
         self::updateModel($request,$model);
         $model->save();
         return ResponseBuilder::responseUpdated($model->toArray());
+    }
+
+    public function toggleStatus(int $id)
+    {
+        $model = self::validateGetModelById($id);
+        $model->is_active =  !$model->is_active;
+        $model->save();
+        return ResponseBuilder::responseUpdated($model->toArray());
+
     }
 
     public function delete($id)
@@ -63,6 +86,7 @@ class EventController extends Controller
     public function mapToModel(EventRequest $request): Event{
         $model = new Event();
         $model->name = $request->name;
+        $model->date = $request->date;
         $model->start_date = $request->start_date;
         $model->end_date = $request->end_date;
         $model->event_type = $request->event_type;
