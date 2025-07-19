@@ -1,4 +1,4 @@
-<?php
+    <?php
 
 use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\EventCategoryController;
@@ -6,6 +6,7 @@ use App\Http\Controllers\api\EventController;
 use App\Http\Controllers\api\GroupCellController;
 use App\Http\Controllers\api\GroupCellHasMemberController;
 use App\Http\Controllers\api\UserController;
+use App\Http\Controllers\ArticleController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -41,6 +42,14 @@ Route::controller(EventCategoryController::class)->group(function () {
     Route::get("/v1/event-categories/{id}", "getById");
     Route::put("/v1/event-categories/{id}","put");
     Route::delete("/v1/event-categories/{id}", "delete");
+});
+
+Route::controller(ArticleController::class)->group(function () {
+    Route::post("/v1/articles", "post");
+    Route::get("/v1/articles", "get");
+    Route::get("/v1/articles/{id}", "getById");
+    Route::put("/v1/articles/{id}","put");
+    Route::delete("/v1/articles/{id}", "delete");
 });
 
 Route::controller(GroupCellController::class)->group(function () {
