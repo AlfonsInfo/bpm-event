@@ -3,13 +3,11 @@
 namespace App\Http\Controllers\api;
 
 use App\Exceptions\DataNotFoundException;
-use App\Helper\RequestQueryMapper;
 use App\Helper\ResponseBuilder;
 use App\Http\Requests\EventCategoryRequest;
 use App\Http\Requests\PaginatedRequest;
 use App\Models\EventCategory;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 
 class EventCategoryController extends Controller
 {   
@@ -23,7 +21,6 @@ class EventCategoryController extends Controller
         $event = self::mapToModel($request);
         $event->save();
         return ResponseBuilder::responseCreated();
-        //
     }
 
     public function getById(int $id)

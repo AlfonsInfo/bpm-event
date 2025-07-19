@@ -2,42 +2,39 @@
 
 namespace App\Http\Controllers;
 
+use App\Helper\ResponseBuilder;
 use App\Models\Article;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class ArticleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+
+    public function get(Request $request)
     {
-        //
+        $query = Article::query();   
+        return $query->get();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function post(Request $request)
     {
-        //
+        $data = self::mapToModel($request);
+        $data->save();
+        return ResponseBuilder::responseCreated();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function getById(int $id)
     {
-        //
+        $model = self::validateGetModelById($id);
+        return ResponseBuilder::responseGetById($model->toArray()); 
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Article $article)
+    public function put(Article $article)
     {
-        //
+        $model = self::validateGetModelById($id);
+        self::updatemodel($request,$model); 
+        $model->save();
+        return ResponseBuilder::responseUpdated($model->toArray());
     }
 
     /**
@@ -62,5 +59,18 @@ class ArticleController extends Controller
     public function destroy(Article $article)
     {
         //
+    }
+
+    public function validateGetModelById(int $id){
+        return Article::where('id', $id)->first() ?? throw new DataNotFoundException("Event Category Not Found");
+    }
+
+    public function updatemodel(Request $request){
+        // $model-
+    }
+
+    public function mapToModel(Request $request){
+        $model = new Article();
+        return $model;
     }
 }
